@@ -1,0 +1,663 @@
+<!doctype html><html><head><meta charset=utf-8><title>Stamped</title><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Special+Elite&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: navy passport cover frames one mint security-paper page; stamps land on the page */
+:root {
+  --cover: #16244a;
+  --cover-2: #1f3266;
+  --foil: #e7bd4f;
+  --paper: #e9f2ec;
+  --paper-2: #dfeae3;
+  --ink: #1b2233;
+  --muted: #56646a;
+  --rule: #bfd0c5;
+  --guil-a: rgba(214, 92, 150, .13);
+  --guil-b: rgba(40, 140, 150, .12);
+  --tourist: #66788a;
+  --traveler: #1c8556;
+  --explorer: #1f55c2;
+  --pioneer: #8737c6;
+  --legend: #b5780a;
+  --denied: #c2352b;
+  --display: "Bungee", "Arial Black", Impact, sans-serif;
+  --stamp: "Special Elite", "Courier New", monospace;
+  --body: "Outfit", system-ui, -apple-system, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  margin: 0; color: var(--ink); font-family: var(--body); font-size: 16px;
+  background:
+    radial-gradient(circle at 20% 0%, var(--cover-2), transparent 55%),
+    repeating-linear-gradient(45deg, rgba(255,255,255,.025) 0 2px, transparent 2px 7px),
+    var(--cover);
+  padding-inline: 16px; padding-block: 24px 48px;
+}
+.shell { max-width: 680px; margin: 0 auto; display: grid; gap: 18px; }
+
+/* Cover header */
+.cover { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; color: var(--foil); }
+.crest { display: flex; align-items: center; gap: 14px; }
+.globe { width: 52px; height: 52px; border-radius: 50%; border: 3px solid var(--foil); position: relative; flex: none;
+  background: radial-gradient(circle, transparent 58%, var(--foil) 59% 62%, transparent 63%); }
+.globe::before, .globe::after { content: ""; position: absolute; inset: 4px; border: 2px solid var(--foil); border-radius: 50%; }
+.globe::before { inset: 4px 15px; }
+.globe::after { inset: 21px 3px; border-radius: 0; border-width: 2px 0 0; }
+.wordmark { font-family: var(--display); font-size: clamp(2.1rem, 9vw, 3.1rem); line-height: .9; letter-spacing: .02em; margin: 0; }
+.tagline { font-size: 12px; letter-spacing: .28em; text-transform: uppercase; opacity: .85; margin-top: 4px; font-weight: 600; }
+.stats { display: flex; gap: 8px; }
+.stat { border: 1.5px solid rgba(231,189,79,.55); border-radius: 10px; padding: 6px 12px; text-align: center; min-width: 74px; }
+.stat b { display: block; font-family: var(--mono); font-size: 18px; color: #fff; }
+.stat span { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; }
+
+/* Passport page */
+.page {
+  position: relative; border-radius: 6px 18px 18px 6px; padding: 22px 22px 26px; overflow: hidden;
+  background:
+    repeating-radial-gradient(circle at 0% 100%, transparent 0 9px, var(--guil-a) 9px 10px),
+    repeating-radial-gradient(circle at 100% 0%, transparent 0 11px, var(--guil-b) 11px 12px),
+    linear-gradient(var(--paper), var(--paper-2));
+  box-shadow: inset 14px 0 18px -14px rgba(0,0,0,.35), 0 18px 40px rgba(0,0,0,.35);
+}
+.page::before { content: ""; position: absolute; inset: 10px; border: 1.5px solid var(--rule); border-radius: 4px 12px 12px 4px; pointer-events: none; }
+.page-head { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-family: var(--mono); font-size: 12px;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--muted); position: relative; }
+.page-head b { color: var(--ink); }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tabbtn { font: 700 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 6px 10px; border-radius: 999px;
+  border: 1.5px solid var(--rule); background: transparent; color: var(--muted); cursor: pointer; }
+.tabbtn[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+/* Visa slots */
+.slots { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 16px 0 18px; position: relative; }
+.slot { aspect-ratio: 1.15; border: 2px dashed var(--rule); border-radius: 10px; display: grid; place-items: center; text-align: center;
+  font: 700 13px var(--mono); color: var(--muted); }
+.slot.now { border-color: var(--ink); color: var(--ink); border-style: solid; }
+.slot.done { border-style: solid; font-family: var(--stamp); font-size: clamp(10px, 2.6vw, 13px); line-height: 1.1; padding: 4px; transform: rotate(-4deg); background: rgba(255,255,255,.35); }
+.slot.done b { display: block; font-family: var(--mono); font-size: clamp(13px, 3.4vw, 17px); }
+.slot:nth-child(even).done { transform: rotate(3deg); }
+
+/* Question */
+.eyebrow { font: 700 12px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; position: relative; }
+.question { font-family: var(--body); font-weight: 800; font-size: clamp(1.5rem, 5vw, 2.05rem); line-height: 1.12; margin: 0 0 6px; text-wrap: balance; position: relative; }
+.hint { color: var(--muted); margin: 0 0 18px; font-size: 15px; position: relative; }
+form { display: flex; gap: 10px; flex-wrap: wrap; position: relative; }
+.field { flex: 1 1 230px; min-width: 0; display: grid; gap: 4px; }
+.field label { font: 700 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+input[type="text"] { width: 100%; font: 400 22px var(--stamp); padding: 12px 14px; border-radius: 8px; border: 0; border-bottom: 3px solid var(--ink);
+  background: rgba(255,255,255,.55); color: var(--ink); }
+input[type="text"]:focus { outline: 3px solid var(--explorer); outline-offset: 2px; }
+.btn { font: 400 17px var(--display); letter-spacing: .04em; padding: 12px 22px; border-radius: 10px; border: 0; cursor: pointer;
+  background: var(--denied); color: #fff; box-shadow: 0 4px 0 #7e1f18; align-self: end; }
+.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #7e1f18; }
+.btn.alt { background: var(--ink); box-shadow: 0 4px 0 #000; }
+.btn.ghost { background: transparent; color: var(--ink); border: 2px solid var(--ink); box-shadow: none; }
+.btn:focus-visible, .tabbtn:focus-visible { outline: 3px solid var(--explorer); outline-offset: 3px; }
+.msg { min-height: 22px; margin-top: 10px; font-size: 14px; font-weight: 700; color: var(--denied); position: relative; }
+
+/* The stamp */
+.stamp-zone { display: grid; place-items: center; padding: 6px 0 16px; position: relative; }
+.stamp { --c: var(--tourist); color: var(--c); border: 4px solid var(--c); padding: 12px 22px; text-align: center; font-family: var(--stamp);
+  transform: rotate(-6deg); position: relative; background: rgba(255,255,255,.12); max-width: 100%;
+  -webkit-mask-image: radial-gradient(circle at 30% 40%, #000 60%, rgba(0,0,0,.82) 61% 70%, #000 71%); mask-image: radial-gradient(circle at 30% 40%, #000 60%, rgba(0,0,0,.82) 61% 70%, #000 71%); }
+.stamp::before { content: ""; position: absolute; inset: 4px; border: 1.5px solid var(--c); pointer-events: none; }
+.stamp .tier { font-family: var(--display); font-size: 13px; letter-spacing: .2em; }
+.stamp .country { font-size: clamp(26px, 7vw, 38px); line-height: 1.05; margin: 4px 0; overflow-wrap: anywhere; }
+.stamp .line { font-size: 13px; letter-spacing: .12em; }
+.stamp .pts { font-family: var(--display); font-size: 22px; margin-top: 2px; }
+.stamp.t-tourist { border-radius: 10px; }
+.stamp.t-traveler { border-radius: 999px; padding: 18px 34px; }
+.stamp.t-explorer { border-width: 5px; border-style: double; border-radius: 2px; }
+.stamp.t-pioneer { border-style: dashed; border-radius: 26px; transform: rotate(5deg); }
+.stamp.t-legend { border-width: 6px; border-style: double; border-radius: 999px; padding: 20px 38px; transform: rotate(-9deg); box-shadow: 0 0 0 6px rgba(181,120,10,.15); }
+.stamp.t-denied { border-radius: 4px; transform: rotate(-12deg); }
+.slam { animation: slam .45s cubic-bezier(.2,.9,.3,1.3) both; }
+@keyframes slam { 0% { transform: scale(2.2) rotate(-20deg); opacity: 0; } 70% { opacity: 1; } 100% { opacity: 1; } }
+.t-pioneer.slam { animation-name: slamR; }
+@keyframes slamR { 0% { transform: scale(2.2) rotate(18deg); opacity: 0; } 100% { transform: rotate(5deg); opacity: 1; } }
+
+/* Ledger */
+.ledger-title { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; border-bottom: 2px solid var(--ink); padding-bottom: 6px; margin: 4px 0 10px; position: relative; }
+.ledger-title h3 { margin: 0; font: 400 15px var(--display); letter-spacing: .06em; }
+.ledger-title span { font: 500 12px var(--mono); color: var(--muted); }
+.ledger { display: grid; gap: 5px; position: relative; }
+.row { display: grid; grid-template-columns: minmax(0, 10rem) minmax(0, 1fr) 3.6rem; align-items: center; gap: 10px; font-size: 14px; padding: 2px 0; border-bottom: 1px dotted var(--rule); }
+.row .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row .bar { height: 10px; border-radius: 5px; background: rgba(27,34,51,.08); overflow: hidden; }
+.row .bar i { display: block; height: 100%; border-radius: 5px; }
+.row .pc { font-family: var(--mono); text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+.row.mine { font-weight: 800; background: rgba(255,255,255,.55); border-radius: 6px; padding-inline: 6px; }
+.legend { display: flex; gap: 12px; flex-wrap: wrap; font: 600 12px var(--mono); color: var(--muted); margin-top: 14px; position: relative; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; position: relative; }
+
+/* End page */
+.spread { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 18px 12px; margin: 12px 0 18px; position: relative; }
+.spread .stamp { padding: 10px 12px; }
+.spread .stamp .country { font-size: 20px; }
+.spread .stamp .tier { font-size: 10px; }
+.spread .stamp .line { font-size: 11px; }
+.spread .stamp .pts { font-size: 16px; }
+.spread .stamp.t-traveler, .spread .stamp.t-legend { padding: 14px 16px; }
+.total { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; position: relative; }
+.total b { font: 400 clamp(3rem, 15vw, 4.6rem) var(--display); line-height: 1; }
+.total span { font: 700 16px var(--mono); color: var(--muted); }
+.rank { font-family: var(--stamp); font-size: 20px; margin: 4px 0 0; position: relative; }
+.mrz { font: 500 clamp(10px, 2.8vw, 14px) var(--mono); letter-spacing: .12em; background: rgba(255,255,255,.55); border-radius: 6px; padding: 10px 12px;
+  margin-top: 18px; overflow-x: auto; white-space: pre; position: relative; }
+.share { font: 500 14px var(--mono); white-space: pre; background: #fff; border: 1.5px solid var(--rule); border-radius: 8px; padding: 12px; margin-top: 12px; overflow-x: auto; position: relative; }
+
+.foot { color: rgba(255,255,255,.7); font-size: 13px; line-height: 1.55; }
+.foot b { color: var(--foil); }
+@media (prefers-reduced-motion: reduce) { .slam { animation: none; } }
+</style>
+
+<div class="shell">
+  <header class="cover">
+    <div class="crest">
+      <div class="globe" aria-hidden="true"></div>
+      <div>
+        <h1 class="wordmark">STAMPED</h1>
+        <div class="tagline">Collect the rarest stamps</div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="streak">0</b><span>Streak</span></div>
+      <div class="stat"><b id="best">0</b><span>Best</span></div>
+    </div>
+  </header>
+
+  <section class="page" id="page" aria-live="polite"></section>
+
+  <p class="foot"><b>How it works.</b> Each trip has five destinations. Declare a country that fits. The fewer travelers who'd pick it, the rarer your stamp and the more points you earn, up to 100 per stamp. Rarity percentages are estimates. One declaration per destination. A new trip opens every day at midnight.</p>
+</div>
+
+<datalist id="countries"></datalist>
+
+<script>
+// Stamped question bank.
+// Each entry: a prompt, and every valid answer with a weight.
+// Weights are rough estimates of how often players would name that country.
+// They get converted to percentages per question, so they don't need to add up to 100.
+// Once the site has real players, replace these with real answer counts.
+
+const RAW_QUESTIONS = [
+  // ---------- Borders ----------
+  ["borders", "A country that borders Germany", "France 30, Poland 16, Austria 15, Switzerland 10, Netherlands 10, Belgium 7, Denmark 6, Czechia 4, Luxembourg 2"],
+  ["borders", "A country that borders China", "India 22, Russia 20, Mongolia 12, North Korea 10, Vietnam 8, Pakistan 7, Nepal 6, Kazakhstan 4, Laos 3, Myanmar 3, Bhutan 2, Afghanistan 1.5, Kyrgyzstan 1, Tajikistan 0.5"],
+  ["borders", "A country that borders Brazil", "Argentina 30, Colombia 13, Venezuela 12, Peru 12, Bolivia 10, Paraguay 9, Uruguay 8, Guyana 3, Suriname 2, France 1"],
+  ["borders", "A country that borders Russia", "China 25, Ukraine 18, Finland 12, Kazakhstan 9, Mongolia 7, Belarus 7, Poland 5, Norway 4, Estonia 3, Georgia 3, Latvia 2, Lithuania 2, North Korea 2, Azerbaijan 1"],
+  ["borders", "A country that borders France", "Spain 25, Germany 22, Italy 18, Belgium 12, Switzerland 10, Luxembourg 4, Monaco 4, Andorra 3, Brazil 1, Suriname 1, Netherlands 0.5"],
+  ["borders", "A country that borders India", "Pakistan 28, China 22, Nepal 15, Bangladesh 15, Bhutan 8, Myanmar 8"],
+  ["borders", "A country that borders Spain", "Portugal 50, France 40, Andorra 6, Morocco 3, United Kingdom 1"],
+  ["borders", "A country that borders Austria", "Germany 25, Switzerland 18, Italy 18, Czechia 10, Hungary 10, Slovenia 7, Slovakia 7, Liechtenstein 5"],
+  ["borders", "A country that borders Turkey", "Greece 25, Syria 20, Iran 15, Iraq 12, Bulgaria 10, Georgia 9, Armenia 6, Azerbaijan 3"],
+  ["borders", "A country that borders Saudi Arabia", "Yemen 22, Jordan 18, Iraq 17, United Arab Emirates 13, Kuwait 12, Oman 10, Qatar 8"],
+  ["borders", "A country that borders Egypt", "Libya 35, Sudan 35, Israel 22, Palestine 8"],
+  ["borders", "A country that borders Kenya", "Tanzania 28, Uganda 22, Ethiopia 18, Somalia 17, South Sudan 15"],
+  ["borders", "A country that borders South Africa", "Zimbabwe 22, Namibia 20, Botswana 20, Mozambique 18, Lesotho 12, Eswatini 8"],
+  ["borders", "A country that borders Poland", "Germany 35, Ukraine 18, Czechia 15, Belarus 10, Slovakia 8, Lithuania 7, Russia 7"],
+  ["borders", "A country that borders Ukraine", "Russia 40, Poland 22, Belarus 12, Romania 8, Hungary 7, Slovakia 6, Moldova 5"],
+  ["borders", "A country that borders Iran", "Iraq 28, Afghanistan 22, Pakistan 18, Turkey 15, Turkmenistan 7, Armenia 5, Azerbaijan 5"],
+  ["borders", "A country that borders Afghanistan", "Pakistan 35, Iran 30, Tajikistan 9, Turkmenistan 9, Uzbekistan 9, China 8"],
+  ["borders", "A country that borders Mexico", "United States 75, Guatemala 18, Belize 7"],
+  ["borders", "A country that borders Argentina", "Chile 30, Brazil 28, Uruguay 15, Paraguay 15, Bolivia 12"],
+  ["borders", "A country that borders Serbia", "Hungary 20, Croatia 18, Bosnia and Herzegovina 15, Romania 13, Bulgaria 12, Montenegro 10, North Macedonia 8, Kosovo 4"],
+  ["borders", "A country that borders Vietnam", "China 50, Laos 30, Cambodia 20"],
+  ["borders", "A country that borders Switzerland", "Germany 30, France 28, Italy 25, Austria 12, Liechtenstein 5"],
+  ["borders", "A country that borders Italy", "France 30, Switzerland 25, Austria 22, Slovenia 10, San Marino 7, Vatican City 6"],
+  ["borders", "A country that borders DR Congo", "Rwanda 18, Uganda 15, Republic of the Congo 14, Angola 12, Zambia 10, Tanzania 9, Central African Republic 9, Burundi 7, South Sudan 6"],
+  ["borders", "A country that borders Nigeria", "Niger 30, Cameroon 30, Benin 25, Chad 15"],
+  ["borders", "A country that borders Hungary", "Austria 25, Romania 18, Slovakia 15, Serbia 12, Croatia 12, Ukraine 10, Slovenia 8"],
+  ["borders", "A country that borders Romania", "Hungary 25, Ukraine 22, Bulgaria 22, Moldova 18, Serbia 13"],
+  ["borders", "A country that borders Bulgaria", "Romania 25, Greece 25, Turkey 22, Serbia 16, North Macedonia 12"],
+  ["borders", "A country that borders Greece", "Turkey 40, Albania 25, Bulgaria 20, North Macedonia 15"],
+  ["borders", "A country that borders Croatia", "Slovenia 25, Serbia 22, Bosnia and Herzegovina 22, Hungary 20, Montenegro 11"],
+  ["borders", "A country that borders Czechia", "Germany 35, Slovakia 25, Poland 22, Austria 18"],
+  ["borders", "A country that borders Belarus", "Russia 35, Ukraine 25, Poland 20, Lithuania 12, Latvia 8"],
+  ["borders", "A country that borders Kazakhstan", "Russia 35, China 30, Uzbekistan 15, Kyrgyzstan 12, Turkmenistan 8"],
+  ["borders", "A country that borders Pakistan", "India 40, Afghanistan 25, Iran 20, China 15"],
+  ["borders", "A country that borders Myanmar", "Thailand 30, China 25, India 20, Bangladesh 15, Laos 10"],
+  ["borders", "A country that borders Thailand", "Cambodia 30, Laos 25, Myanmar 25, Malaysia 20"],
+  ["borders", "A country that borders Laos", "Vietnam 28, Thailand 25, China 20, Cambodia 17, Myanmar 10"],
+  ["borders", "A country that borders Cambodia", "Thailand 40, Vietnam 40, Laos 20"],
+  ["borders", "A country that borders Iraq", "Iran 25, Syria 18, Saudi Arabia 18, Turkey 15, Kuwait 13, Jordan 11"],
+  ["borders", "A country that borders Syria", "Turkey 25, Iraq 22, Lebanon 20, Jordan 18, Israel 15"],
+  ["borders", "A country that borders Israel", "Egypt 25, Jordan 22, Lebanon 20, Syria 18, Palestine 15"],
+  ["borders", "A country that borders Jordan", "Saudi Arabia 25, Israel 22, Syria 20, Iraq 20, Palestine 13"],
+  ["borders", "A country that borders Sudan", "Egypt 25, South Sudan 20, Chad 15, Ethiopia 15, Libya 12, Eritrea 7, Central African Republic 6"],
+  ["borders", "A country that borders Ethiopia", "Somalia 25, Kenya 22, Eritrea 18, Sudan 15, Djibouti 10, South Sudan 10"],
+  ["borders", "A country that borders Tanzania", "Kenya 30, Uganda 15, Mozambique 12, Rwanda 10, Zambia 9, Malawi 9, Burundi 8, DR Congo 7"],
+  ["borders", "A country that borders Zambia", "Zimbabwe 20, DR Congo 15, Angola 12, Tanzania 12, Mozambique 11, Malawi 11, Botswana 10, Namibia 9"],
+  ["borders", "A country that borders Mozambique", "South Africa 25, Tanzania 20, Zimbabwe 18, Malawi 15, Zambia 12, Eswatini 10"],
+  ["borders", "A country that borders Angola", "Namibia 35, DR Congo 30, Zambia 25, Republic of the Congo 10"],
+  ["borders", "A country that borders Namibia", "South Africa 35, Botswana 25, Angola 25, Zambia 15"],
+  ["borders", "A country that borders Cameroon", "Nigeria 35, Chad 18, Central African Republic 15, Gabon 12, Republic of the Congo 10, Equatorial Guinea 10"],
+  ["borders", "A country that borders Niger", "Nigeria 28, Mali 18, Chad 15, Algeria 13, Burkina Faso 11, Libya 9, Benin 6"],
+  ["borders", "A country that borders Mali", "Senegal 20, Algeria 18, Niger 16, Burkina Faso 14, Mauritania 12, Ivory Coast 10, Guinea 10"],
+  ["borders", "A country that borders Algeria", "Morocco 30, Tunisia 22, Libya 20, Mali 12, Niger 9, Mauritania 7"],
+  ["borders", "A country that borders Libya", "Egypt 30, Tunisia 22, Algeria 20, Chad 12, Sudan 10, Niger 6"],
+  ["borders", "A country that borders Chad", "Libya 20, Sudan 20, Niger 18, Nigeria 15, Cameroon 15, Central African Republic 12"],
+  ["borders", "A country that borders Colombia", "Venezuela 30, Ecuador 22, Panama 18, Peru 15, Brazil 15"],
+  ["borders", "A country that borders Peru", "Ecuador 25, Bolivia 22, Chile 22, Brazil 16, Colombia 15"],
+  ["borders", "A country that borders Bolivia", "Peru 25, Brazil 22, Argentina 20, Chile 18, Paraguay 15"],
+  ["borders", "A country that borders Chile", "Argentina 55, Peru 25, Bolivia 20"],
+  ["borders", "A country that borders Venezuela", "Colombia 55, Brazil 30, Guyana 15"],
+  ["borders", "A country that borders Guatemala", "Mexico 45, Honduras 20, El Salvador 20, Belize 15"],
+  ["borders", "A country that borders Belgium", "France 35, Netherlands 32, Germany 23, Luxembourg 10"],
+  ["borders", "A country that borders Slovenia", "Italy 30, Austria 28, Croatia 27, Hungary 15"],
+  ["borders", "A country that borders Slovakia", "Czechia 35, Hungary 20, Poland 20, Austria 15, Ukraine 10"],
+  ["borders", "A country that borders Lithuania", "Latvia 30, Poland 28, Belarus 22, Russia 20"],
+  ["borders", "A country that borders Latvia", "Estonia 30, Lithuania 30, Russia 25, Belarus 15"],
+  ["borders", "A country that borders Finland", "Sweden 40, Russia 35, Norway 25"],
+  ["borders", "A country that borders Norway", "Sweden 55, Finland 30, Russia 15"],
+  ["borders", "A country that borders Uganda", "Kenya 30, Tanzania 22, Rwanda 18, DR Congo 15, South Sudan 15"],
+  ["borders", "A country that borders Zimbabwe", "South Africa 35, Zambia 25, Mozambique 22, Botswana 18"],
+  ["borders", "A country that borders Botswana", "South Africa 40, Namibia 25, Zimbabwe 25, Zambia 10"],
+  ["borders", "A country that borders Senegal", "Gambia 30, Mali 25, Mauritania 20, Guinea 15, Guinea-Bissau 10"],
+  ["borders", "A country that borders Ghana", "Ivory Coast 35, Togo 35, Burkina Faso 30"],
+  ["borders", "A country that borders Ivory Coast", "Ghana 30, Liberia 20, Guinea 18, Mali 17, Burkina Faso 15"],
+  ["borders", "A country that borders Uzbekistan", "Kazakhstan 28, Afghanistan 22, Turkmenistan 18, Kyrgyzstan 16, Tajikistan 16"],
+  ["borders", "A country that borders Georgia", "Russia 40, Turkey 25, Armenia 20, Azerbaijan 15"],
+  ["borders", "A country that borders Armenia", "Georgia 30, Azerbaijan 28, Turkey 25, Iran 17"],
+  ["borders", "A country that borders Azerbaijan", "Armenia 28, Iran 25, Russia 22, Georgia 20, Turkey 5"],
+  ["borders", "A country that borders North Korea", "South Korea 55, China 35, Russia 10"],
+  ["borders", "A country that borders Malaysia", "Thailand 45, Indonesia 35, Brunei 20"],
+  ["borders", "A country that borders Indonesia", "Malaysia 50, Papua New Guinea 30, Timor-Leste 20"],
+  ["borders", "A country that borders the Netherlands", "Germany 50, Belgium 47, France 3"],
+  ["borders", "A country that borders Honduras", "Guatemala 35, Nicaragua 35, El Salvador 30"],
+  ["borders", "A country that borders Paraguay", "Brazil 35, Argentina 35, Bolivia 30"],
+  ["borders", "A country that borders Rwanda", "Uganda 30, DR Congo 25, Tanzania 25, Burundi 20"],
+  ["borders", "A country that borders Somalia", "Ethiopia 45, Kenya 40, Djibouti 15"],
+  ["borders", "A country that borders Oman", "Saudi Arabia 40, United Arab Emirates 35, Yemen 25"],
+  ["borders", "A country that borders Turkmenistan", "Iran 30, Afghanistan 25, Uzbekistan 25, Kazakhstan 20"],
+  ["borders", "A country that borders Tajikistan", "Afghanistan 30, China 25, Uzbekistan 25, Kyrgyzstan 20"],
+  ["borders", "A country that borders Kyrgyzstan", "Kazakhstan 30, China 30, Uzbekistan 20, Tajikistan 20"],
+  ["borders", "A country that borders Benin", "Nigeria 35, Togo 30, Niger 20, Burkina Faso 15"],
+  ["borders", "A country that borders Burkina Faso", "Ghana 22, Mali 20, Ivory Coast 18, Niger 16, Togo 12, Benin 12"],
+  ["borders", "A country that borders Gabon", "Cameroon 40, Republic of the Congo 35, Equatorial Guinea 25"],
+  ["borders", "A country that borders the Republic of the Congo", "DR Congo 35, Gabon 20, Cameroon 18, Central African Republic 15, Angola 12"],
+  ["borders", "A country that borders the Central African Republic", "Chad 20, DR Congo 20, Cameroon 18, Sudan 15, South Sudan 15, Republic of the Congo 12"],
+  ["borders", "A country that borders South Sudan", "Sudan 35, Ethiopia 15, Kenya 15, Uganda 15, DR Congo 10, Central African Republic 10"],
+  ["borders", "A country that borders Eritrea", "Ethiopia 50, Sudan 30, Djibouti 20"],
+  ["borders", "A country that borders Malawi", "Mozambique 40, Tanzania 32, Zambia 28"],
+  ["borders", "A country that borders Guinea", "Sierra Leone 20, Liberia 18, Senegal 17, Mali 17, Ivory Coast 15, Guinea-Bissau 13"],
+  ["borders", "A country that borders Liberia", "Sierra Leone 40, Ivory Coast 30, Guinea 30"],
+  ["borders", "A country that borders Mauritania", "Senegal 40, Mali 35, Algeria 25"],
+  ["borders", "A country that borders Togo", "Ghana 40, Benin 35, Burkina Faso 25"],
+  ["borders", "A country that borders Albania", "Greece 35, Montenegro 22, North Macedonia 22, Kosovo 21"],
+  ["borders", "A country that borders North Macedonia", "Greece 28, Serbia 22, Bulgaria 20, Albania 18, Kosovo 12"],
+  ["borders", "A country that borders Montenegro", "Serbia 25, Croatia 22, Bosnia and Herzegovina 20, Albania 20, Kosovo 13"],
+  ["borders", "A country that borders Bosnia and Herzegovina", "Croatia 40, Serbia 38, Montenegro 22"],
+  ["borders", "A country that borders Luxembourg", "Belgium 35, France 35, Germany 30"],
+
+  // ---------- Regions ----------
+  ["regions", "A country in South America", "Brazil 28, Argentina 18, Colombia 11, Peru 10, Chile 9, Venezuela 7, Ecuador 5, Bolivia 4, Uruguay 3, Paraguay 3, Guyana 1, Suriname 1"],
+  ["regions", "A landlocked country in Africa", "Chad 12, Mali 11, Niger 10, Ethiopia 10, Uganda 9, Rwanda 8, Zambia 8, Zimbabwe 7, Botswana 6, Lesotho 5, Burkina Faso 4, Malawi 3, Central African Republic 2.5, South Sudan 2, Burundi 1.5, Eswatini 1"],
+  ["regions", "A country in Central America", "Costa Rica 22, Panama 20, Guatemala 16, Honduras 13, Nicaragua 11, El Salvador 11, Belize 7"],
+  ["regions", "A country in Southeast Asia", "Thailand 20, Vietnam 18, Indonesia 13, Philippines 12, Malaysia 10, Singapore 9, Cambodia 7, Laos 4, Myanmar 4, Brunei 2, Timor-Leste 1"],
+  ["regions", "A country in Oceania", "Australia 35, New Zealand 25, Fiji 10, Papua New Guinea 9, Samoa 5, Tonga 4, Vanuatu 3, Solomon Islands 3, Palau 2, Tuvalu 1.5, Kiribati 1.2, Nauru 1, Marshall Islands 0.7, Micronesia 0.6"],
+  ["regions", "A Nordic country", "Sweden 30, Norway 28, Denmark 18, Finland 15, Iceland 9"],
+  ["regions", "A landlocked country in Europe", "Switzerland 25, Austria 22, Hungary 10, Czechia 10, Luxembourg 7, Slovakia 6, Belarus 5, Liechtenstein 4, Serbia 3, Andorra 3, San Marino 2, Vatican City 2, North Macedonia 1, Moldova 1, Kosovo 0.5"],
+  ["regions", "A landlocked country in Asia", "Mongolia 25, Afghanistan 18, Nepal 15, Kazakhstan 12, Laos 10, Bhutan 8, Uzbekistan 4, Kyrgyzstan 3, Tajikistan 3, Turkmenistan 2"],
+  ["regions", "A landlocked country in South America", "Bolivia 70, Paraguay 30"],
+  ["regions", "An island country in the Caribbean", "Jamaica 22, Cuba 22, Bahamas 12, Barbados 8, Trinidad and Tobago 8, Dominican Republic 8, Haiti 7, Saint Lucia 4, Grenada 3, Antigua and Barbuda 2, Dominica 2, Saint Kitts and Nevis 1, Saint Vincent and the Grenadines 1"],
+  ["regions", "A country on the Arabian Peninsula", "Saudi Arabia 30, United Arab Emirates 18, Yemen 12, Oman 12, Qatar 12, Kuwait 9, Bahrain 7"],
+  ["regions", "A country in the Horn of Africa", "Ethiopia 35, Somalia 35, Eritrea 15, Djibouti 15"],
+  ["regions", "A country in West Africa", "Nigeria 25, Ghana 20, Senegal 10, Ivory Coast 8, Mali 6, Liberia 5, Sierra Leone 5, Guinea 4, Niger 4, Burkina Faso 3, Benin 2, Togo 2, Gambia 2, Mauritania 2, Guinea-Bissau 1, Cabo Verde 1"],
+  ["regions", "A country in East Asia", "China 30, Japan 28, South Korea 18, North Korea 10, Mongolia 8, Taiwan 6"],
+  ["regions", "An island country in Africa", "Madagascar 45, Mauritius 15, Seychelles 12, Cabo Verde 10, Sao Tome and Principe 10, Comoros 8"],
+  ["regions", "An island country in Europe", "United Kingdom 30, Ireland 25, Iceland 25, Malta 12, Cyprus 8"],
+  ["regions", "An island country in Asia", "Japan 30, Philippines 20, Indonesia 18, Sri Lanka 12, Singapore 8, Taiwan 6, Maldives 4, Bahrain 1, Timor-Leste 1"],
+  ["regions", "A country in Central Asia", "Kazakhstan 35, Uzbekistan 25, Kyrgyzstan 15, Tajikistan 13, Turkmenistan 12"],
+  ["regions", "A country that was part of Yugoslavia", "Serbia 25, Croatia 25, Bosnia and Herzegovina 18, Slovenia 12, Montenegro 8, North Macedonia 8, Kosovo 4"],
+  ["regions", "A country in the Caucasus", "Georgia 40, Armenia 35, Azerbaijan 25"],
+  ["regions", "A Baltic state", "Lithuania 36, Estonia 34, Latvia 30"],
+  ["regions", "A Benelux country", "Netherlands 45, Belgium 40, Luxembourg 15"],
+  ["regions", "A European microstate", "Vatican City 30, Monaco 25, San Marino 15, Liechtenstein 15, Andorra 10, Malta 5"],
+  ["regions", "A country in North Africa", "Egypt 30, Morocco 25, Algeria 15, Tunisia 12, Libya 12, Sudan 6"],
+  ["regions", "A country in South Asia", "India 30, Pakistan 18, Bangladesh 14, Sri Lanka 12, Nepal 10, Afghanistan 6, Bhutan 5, Maldives 5"],
+  ["regions", "A country that was part of the Soviet Union", "Russia 20, Ukraine 20, Kazakhstan 10, Belarus 9, Georgia 8, Lithuania 5, Latvia 5, Estonia 5, Uzbekistan 4, Armenia 4, Azerbaijan 3, Moldova 3, Kyrgyzstan 2, Tajikistan 1.5, Turkmenistan 1.5"],
+
+  // ---------- Water ----------
+  ["water", "A country with a Mediterranean coastline", "Italy 22, Spain 17, Greece 14, France 10, Turkey 8, Egypt 7, Croatia 4, Malta 3, Israel 3, Lebanon 2, Cyprus 2, Tunisia 2, Morocco 1.5, Libya 1.2, Algeria 1, Albania 0.8, Montenegro 0.6, Syria 0.6, Monaco 0.5, Slovenia 0.4, Bosnia and Herzegovina 0.3, Palestine 0.2"],
+  ["water", "A country with a Black Sea coastline", "Turkey 25, Russia 20, Ukraine 20, Romania 12, Bulgaria 12, Georgia 11"],
+  ["water", "A country with a Caspian Sea coastline", "Russia 25, Iran 25, Kazakhstan 20, Azerbaijan 18, Turkmenistan 12"],
+  ["water", "A country with a Red Sea coastline", "Egypt 30, Saudi Arabia 25, Yemen 12, Sudan 10, Eritrea 8, Israel 6, Jordan 5, Djibouti 4"],
+  ["water", "A country with a Persian Gulf coastline", "Iran 22, Saudi Arabia 20, United Arab Emirates 15, Qatar 12, Kuwait 11, Iraq 10, Bahrain 10, Oman 3"],
+  ["water", "A country with a Baltic Sea coastline", "Sweden 18, Finland 14, Germany 12, Poland 12, Denmark 10, Estonia 9, Latvia 9, Lithuania 9, Russia 7"],
+  ["water", "A country in the Americas with a Pacific coastline", "United States 20, Mexico 15, Chile 15, Canada 10, Peru 10, Colombia 8, Ecuador 7, Panama 5, Costa Rica 4, Guatemala 3, Nicaragua 2, El Salvador 2, Honduras 1"],
+  ["water", "A country the Danube flows through", "Austria 20, Hungary 18, Germany 15, Romania 12, Serbia 10, Slovakia 8, Bulgaria 7, Croatia 5, Ukraine 3, Moldova 2"],
+  ["water", "A country in the Nile basin", "Egypt 35, Sudan 18, Ethiopia 12, Uganda 10, South Sudan 7, Kenya 5, Tanzania 5, Rwanda 3, Burundi 2, DR Congo 2, Eritrea 1"],
+  ["water", "A country the Mekong flows through", "Vietnam 28, Cambodia 22, Laos 18, Thailand 17, China 10, Myanmar 5"],
+  ["water", "A country with part of the Amazon rainforest", "Brazil 50, Peru 15, Colombia 12, Venezuela 6, Ecuador 6, Bolivia 6, Guyana 2, Suriname 2, France 1"],
+  ["water", "A country the equator passes through", "Ecuador 25, Brazil 20, Colombia 10, Kenya 10, Indonesia 10, DR Congo 7, Uganda 6, Gabon 4, Somalia 4, Republic of the Congo 2, Sao Tome and Principe 1, Kiribati 1, Maldives 0.5"],
+
+  // ---------- Land ----------
+  ["land", "A country the Andes run through", "Peru 25, Chile 22, Argentina 15, Bolivia 14, Ecuador 10, Colombia 10, Venezuela 4"],
+  ["land", "A country the Alps run through", "Switzerland 35, Austria 22, Italy 15, France 14, Germany 8, Slovenia 3, Liechtenstein 2, Monaco 1"],
+  ["land", "A country the Himalayas run through", "Nepal 35, India 25, China 20, Bhutan 12, Pakistan 8"],
+  ["land", "A country the Sahara covers part of", "Egypt 18, Algeria 16, Libya 15, Morocco 12, Mali 9, Niger 9, Chad 8, Sudan 6, Mauritania 5, Tunisia 2"],
+  ["land", "One of the ten largest countries by area", "Russia 25, Canada 18, China 14, United States 12, Brazil 9, Australia 9, India 5, Argentina 3, Kazakhstan 3, Algeria 2"],
+  ["land", "A country with over 100 million people", "China 24, India 22, United States 15, Indonesia 7, Brazil 7, Russia 5, Pakistan 4, Nigeria 4, Japan 3, Mexico 3, Bangladesh 2, Egypt 1.2, Ethiopia 1, Philippines 0.9, Vietnam 0.5, DR Congo 0.4"],
+
+  // ---------- Language ----------
+  ["language", "A country where Spanish is an official language", "Spain 25, Mexico 20, Argentina 8, Colombia 7, Peru 5, Chile 5, Cuba 4, Venezuela 4, Ecuador 3, Bolivia 3, Costa Rica 3, Guatemala 2, Uruguay 2, Paraguay 2, Dominican Republic 2, Panama 2, Honduras 1.5, El Salvador 1.5, Nicaragua 1.5, Equatorial Guinea 0.5"],
+  ["language", "A country where Portuguese is an official language", "Brazil 55, Portugal 30, Angola 5, Mozambique 4, Cabo Verde 2, Guinea-Bissau 1.5, Timor-Leste 1, Sao Tome and Principe 1, Equatorial Guinea 0.5"],
+  ["language", "A country where French is an official language", "France 25, Canada 15, Belgium 12, Switzerland 10, Haiti 5, Luxembourg 4, Monaco 4, Senegal 3, Ivory Coast 3, Cameroon 3, DR Congo 2, Madagascar 2, Benin 1, Togo 1, Gabon 1, Guinea 1, Chad 1, Republic of the Congo 1, Central African Republic 0.7, Burundi 0.5, Rwanda 0.5, Djibouti 0.5, Comoros 0.4, Seychelles 0.4, Vanuatu 0.4, Equatorial Guinea 0.3"],
+  ["language", "A country where Arabic is an official language", "Saudi Arabia 18, Egypt 15, United Arab Emirates 8, Morocco 7, Iraq 6, Jordan 5, Syria 5, Lebanon 4, Algeria 4, Tunisia 3, Libya 3, Qatar 3, Kuwait 3, Oman 3, Yemen 3, Bahrain 2, Sudan 2, Palestine 1.5, Mauritania 1, Somalia 0.7, Djibouti 0.5, Comoros 0.4, Chad 0.4"],
+  ["language", "A country where German is an official language", "Germany 50, Austria 25, Switzerland 15, Liechtenstein 4, Luxembourg 4, Belgium 2"],
+  ["language", "A country where Dutch is an official language", "Netherlands 70, Belgium 25, Suriname 5"],
+  ["language", "A country where Russian is an official language", "Russia 70, Belarus 15, Kazakhstan 10, Kyrgyzstan 5"],
+  ["language", "A country where Italian is an official language", "Italy 75, Switzerland 12, San Marino 8, Vatican City 5"],
+  ["language", "A country where Swahili is an official language", "Tanzania 35, Kenya 35, Uganda 18, Rwanda 12"],
+  ["language", "A country where Chinese is an official language", "China 50, Taiwan 30, Singapore 20"],
+
+  // ---------- Names ----------
+  ["names", "A country whose name starts with M", "Mexico 30, Madagascar 10, Morocco 10, Malaysia 8, Mongolia 6, Maldives 5, Mali 5, Malta 4, Monaco 4, Mozambique 4, Myanmar 3, Moldova 3, Montenegro 2.5, Mauritius 2, Malawi 1.5, Mauritania 1, Micronesia 0.5, Marshall Islands 0.5"],
+  ["names", "A country whose name ends in -stan", "Pakistan 28, Afghanistan 22, Kazakhstan 18, Uzbekistan 12, Turkmenistan 8, Tajikistan 7, Kyrgyzstan 5"],
+  ["names", "A country whose name starts with S", "Spain 18, Sweden 14, Switzerland 12, South Africa 10, Saudi Arabia 8, Singapore 7, South Korea 7, Senegal 3, Serbia 3, Somalia 3, Sudan 3, Syria 3, Sri Lanka 3, Slovakia 2, Slovenia 2, Samoa 1, San Marino 1, Seychelles 1, Sierra Leone 1, Suriname 1, Solomon Islands 0.8, South Sudan 0.8, Saint Lucia 0.5, Sao Tome and Principe 0.4, Saint Kitts and Nevis 0.3, Saint Vincent and the Grenadines 0.3"],
+  ["names", "A country whose name starts with B", "Brazil 30, Belgium 12, Bolivia 8, Bangladesh 8, Bulgaria 6, Bahamas 5, Belarus 5, Bhutan 4, Botswana 4, Barbados 3, Bosnia and Herzegovina 3, Belize 3, Benin 2, Brunei 2, Bahrain 2, Burkina Faso 1.5, Burundi 1.5"],
+  ["names", "A country whose name starts with C", "Canada 30, China 25, Chile 8, Colombia 7, Cuba 6, Croatia 5, Cambodia 4, Costa Rica 4, Cameroon 3, Cyprus 3, Czechia 2, Chad 2, Central African Republic 1, Comoros 0.5, Cabo Verde 0.5"],
+  ["names", "A country whose name starts with G", "Germany 30, Greece 15, Ghana 10, Guatemala 8, Georgia 7, Guinea 4, Guyana 4, Gabon 3, Gambia 3, Grenada 2, Guinea-Bissau 1"],
+  ["names", "A country whose name starts with I", "India 25, Italy 20, Ireland 12, Iran 10, Iraq 8, Israel 8, Indonesia 8, Iceland 7, Ivory Coast 2"],
+  ["names", "A country whose name starts with P", "Portugal 18, Poland 15, Peru 12, Pakistan 12, Philippines 10, Panama 8, Paraguay 7, Papua New Guinea 6, Palestine 4, Palau 2"],
+  ["names", "A country whose name starts with T", "Turkey 20, Thailand 18, Tanzania 8, Tunisia 8, Taiwan 8, Togo 6, Tonga 5, Trinidad and Tobago 5, Tajikistan 5, Turkmenistan 4, Tuvalu 3, Timor-Leste 2"],
+  ["names", "A country whose name starts with N", "Norway 20, Netherlands 16, New Zealand 14, Nigeria 12, Nepal 10, North Korea 8, Nicaragua 6, Niger 5, Namibia 5, North Macedonia 3, Nauru 1"],
+  ["names", "A country whose name starts with K", "Kenya 30, Kazakhstan 20, Kuwait 15, Kyrgyzstan 10, Kosovo 10, Kiribati 5"],
+  ["names", "A country whose name starts with E", "Egypt 30, Ecuador 15, Ethiopia 15, Estonia 12, El Salvador 10, Eritrea 7, Eswatini 4, Equatorial Guinea 4, Timor-Leste 1"],
+  ["names", "A country whose name starts with L", "Lebanon 18, Libya 16, Lithuania 14, Latvia 12, Luxembourg 12, Laos 10, Liberia 8, Liechtenstein 6, Lesotho 4"],
+  ["names", "A country whose name starts with A", "Australia 25, Argentina 18, Austria 12, Afghanistan 10, Algeria 8, Albania 6, Angola 6, Armenia 5, Azerbaijan 4, Andorra 3, Antigua and Barbuda 2"],
+  ["names", "A country whose name starts with U", "United States 30, United Kingdom 20, Ukraine 18, Uganda 10, Uruguay 10, Uzbekistan 7, United Arab Emirates 5"],
+  ["names", "A country whose name starts with H", "Haiti 35, Hungary 35, Honduras 30"],
+  ["names", "A country whose name starts with D", "Denmark 50, Dominican Republic 20, Djibouti 15, Dominica 10, DR Congo 5"],
+  ["names", "A country whose name starts with J", "Japan 50, Jamaica 30, Jordan 20"],
+  ["names", "A country whose name starts with R", "Russia 45, Romania 25, Rwanda 20, Republic of the Congo 10"],
+  ["names", "A country whose name starts and ends with A", "Australia 30, Argentina 20, Algeria 12, Albania 10, Angola 10, Armenia 10, Andorra 5, Antigua and Barbuda 3"],
+  ["names", "A country whose name ends in -land", "Finland 25, Ireland 20, Poland 20, Iceland 15, Switzerland 12, New Zealand 10, Thailand 8"],
+  ["names", "A country with a four-letter name", "Peru 25, Cuba 15, Iran 15, Iraq 15, Chad 8, Mali 7, Fiji 5, Laos 4, Oman 4, Togo 2"],
+  ["names", "A country with \"Guinea\" in its name", "Guinea 30, Papua New Guinea 30, Equatorial Guinea 20, Guinea-Bissau 20"],
+  ["names", "A country with \"South\" in its name", "South Africa 50, South Korea 40, South Sudan 10"],
+  ["names", "A country with \"Republic\" in its name", "Dominican Republic 40, Central African Republic 30, Czechia 20, Republic of the Congo 10"],
+  ["names", "A country with \"Saint\" in its name", "Saint Lucia 45, Saint Kitts and Nevis 30, Saint Vincent and the Grenadines 25"],
+
+  // ---------- Sports ----------
+  ["sports", "A country that has hosted the Summer Olympics", "United States 18, Greece 10, United Kingdom 10, China 10, Japan 8, France 8, Australia 8, Brazil 7, Spain 5, Germany 4, Russia 3, Mexico 3, Italy 2, Canada 2, South Korea 2, Sweden 1, Netherlands 1, Belgium 1, Finland 1"],
+  ["sports", "A country that has hosted the Winter Olympics", "United States 20, Canada 15, Japan 10, France 10, Italy 10, Norway 8, Switzerland 5, Austria 5, China 5, Germany 4, South Korea 4, Russia 3, Bosnia and Herzegovina 0.5"],
+  ["sports", "A country that has won the men's FIFA World Cup", "Brazil 30, Germany 18, Argentina 18, France 12, Italy 10, Spain 6, United Kingdom 4, Uruguay 3"],
+  ["sports", "A country that has hosted the men's FIFA World Cup", "Brazil 15, United States 12, Germany 10, Qatar 9, Russia 8, France 7, Italy 6, Mexico 6, South Africa 5, Japan 4, South Korea 4, United Kingdom 3, Spain 3, Argentina 2, Canada 2, Uruguay 1.5, Chile 1, Sweden 1, Switzerland 1"],
+  ["sports", "A country that has won the men's Cricket World Cup", "India 35, Australia 30, United Kingdom 15, Pakistan 12, Sri Lanka 8"],
+
+  // ---------- World ----------
+  ["world", "A country that uses the euro as a eurozone member", "Germany 20, France 18, Italy 12, Spain 11, Netherlands 7, Portugal 5, Belgium 5, Austria 5, Ireland 4, Greece 3, Finland 2.5, Luxembourg 1.5, Croatia 1.2, Estonia 1, Slovakia 0.9, Slovenia 0.8, Lithuania 0.7, Latvia 0.6, Malta 0.5, Cyprus 0.4, Bulgaria 0.3"],
+  ["world", "A country that is a G20 member", "United States 20, China 15, Japan 9, Germany 9, India 8, United Kingdom 7, France 6, Russia 5, Italy 4, Canada 4, Brazil 3, South Korea 2, Australia 2, Mexico 1.5, Saudi Arabia 1.2, Indonesia 1, Turkey 1, Argentina 0.8, South Africa 0.8"],
+  ["world", "A European country with a monarch", "United Kingdom 30, Spain 15, Sweden 10, Norway 10, Netherlands 10, Denmark 8, Belgium 7, Monaco 4, Luxembourg 3, Liechtenstein 2, Andorra 0.6, Vatican City 0.4"],
+  ["world", "A permanent member of the UN Security Council", "United States 30, China 25, Russia 22, United Kingdom 13, France 10"],
+  ["world", "A country with nuclear weapons", "United States 25, Russia 22, North Korea 15, China 12, India 7, Pakistan 7, United Kingdom 5, France 4, Israel 3"],
+  ["world", "A founding member of the European Economic Community (1957)", "France 30, Germany 28, Italy 18, Belgium 10, Netherlands 10, Luxembourg 4"],
+  ["world", "A member of the European Union", "Germany 15, France 14, Italy 10, Spain 9, Netherlands 6, Poland 5, Belgium 5, Sweden 4, Austria 4, Portugal 4, Ireland 3, Greece 3, Denmark 3, Finland 2.5, Hungary 2, Czechia 2, Romania 1.5, Croatia 1, Bulgaria 1, Slovakia 0.8, Slovenia 0.7, Lithuania 0.6, Latvia 0.5, Estonia 0.5, Luxembourg 0.5, Malta 0.4, Cyprus 0.4"],
+  ["world", "A member of NATO", "United States 22, United Kingdom 12, Canada 9, France 8, Germany 8, Italy 4, Turkey 4, Poland 4, Spain 3, Netherlands 3, Norway 2.5, Finland 2.5, Sweden 2.5, Denmark 2, Belgium 2, Portugal 1.5, Greece 1.5, Romania 1, Czechia 1, Hungary 1, Estonia 0.8, Latvia 0.7, Lithuania 0.7, Iceland 0.6, Bulgaria 0.6, Croatia 0.5, Slovakia 0.5, Albania 0.4, Slovenia 0.4, Luxembourg 0.4, Montenegro 0.3, North Macedonia 0.3"],
+  ["world", "A country that uses the US dollar as its official currency", "United States 40, Ecuador 18, El Salvador 15, Panama 12, Timor-Leste 4, Marshall Islands 4, Micronesia 4, Palau 3"],
+  ["world", "A country where cars drive on the left", "United Kingdom 25, Japan 15, Australia 14, India 10, Ireland 6, New Zealand 6, South Africa 5, Thailand 2, Indonesia 2, Malaysia 1.5, Singapore 1.5, Kenya 1, Jamaica 1, Pakistan 1, Bangladesh 0.6, Sri Lanka 0.6, Cyprus 0.5, Malta 0.5, Nepal 0.4, Bahamas 0.4, Barbados 0.3, Tanzania 0.3, Uganda 0.3, Zimbabwe 0.3, Zambia 0.3, Mozambique 0.3, Botswana 0.2, Namibia 0.2, Fiji 0.2, Trinidad and Tobago 0.2, Guyana 0.2, Suriname 0.15, Bhutan 0.15, Brunei 0.15, Maldives 0.15, Mauritius 0.15, Malawi 0.15, Lesotho 0.1, Eswatini 0.1, Seychelles 0.1, Papua New Guinea 0.1, Solomon Islands 0.1, Samoa 0.1, Tonga 0.1, Kiribati 0.05, Tuvalu 0.05, Nauru 0.05, Timor-Leste 0.05, Grenada 0.05, Dominica 0.05, Saint Lucia 0.05, Antigua and Barbuda 0.05, Saint Kitts and Nevis 0.05, Saint Vincent and the Grenadines 0.05"]
+];
+
+</script>
+<script>
+const COUNTRIES = ["Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi","Cabo Verde","Cambodia","Cameroon","Canada","Central African Republic","Chad","Chile","China","Colombia","Comoros","Costa Rica","Croatia","Cuba","Cyprus","Czechia","DR Congo","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini","Ethiopia","Fiji","Finland","France","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Ivory Coast","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Qatar","Republic of the Congo","Romania","Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Yemen","Zambia","Zimbabwe"];
+
+const ALIASES = {
+  "usa":"United States","us":"United States","america":"United States","united states of america":"United States",
+  "uk":"United Kingdom","britain":"United Kingdom","great britain":"United Kingdom","england":"United Kingdom","scotland":"United Kingdom","wales":"United Kingdom","northern ireland":"United Kingdom",
+  "czech republic":"Czechia","burma":"Myanmar","swaziland":"Eswatini","east timor":"Timor-Leste","timor leste":"Timor-Leste",
+  "cote divoire":"Ivory Coast","drc":"DR Congo","democratic republic of the congo":"DR Congo","congo kinshasa":"DR Congo",
+  "congo brazzaville":"Republic of the Congo","congo":"Republic of the Congo","holland":"Netherlands","turkiye":"Turkey",
+  "bosnia":"Bosnia and Herzegovina","uae":"United Arab Emirates","car":"Central African Republic","cape verde":"Cabo Verde",
+  "macedonia":"North Macedonia","vatican":"Vatican City","holy see":"Vatican City","federated states of micronesia":"Micronesia","png":"Papua New Guinea",
+  "korea":"South Korea","dprk":"North Korea","guinea bissau":"Guinea-Bissau","the gambia":"Gambia","st lucia":"Saint Lucia",
+  "st kitts and nevis":"Saint Kitts and Nevis","st vincent and the grenadines":"Saint Vincent and the Grenadines","sao tome":"Sao Tome and Principe"
+};
+
+const QUESTIONS = RAW_QUESTIONS.map(([cat, q, a]) => {
+  const pairs = a.split(",").map(s => { const m = s.trim().match(/^(.*\S)\s+([\d.]+)$/); return [m[1], parseFloat(m[2])]; });
+  const sum = pairs.reduce((t, p) => t + p[1], 0);
+  return { cat, q, answers: pairs.map(([name, w]) => ({ name, pct: (w / sum) * 100 })).sort((x, y) => y.pct - x.pct) };
+});
+
+const TIERS = [
+  { key: "tourist", name: "Tourist", min: 15, color: "--tourist", sq: "⬜" },
+  { key: "traveler", name: "Traveler", min: 7, color: "--traveler", sq: "🟩" },
+  { key: "explorer", name: "Explorer", min: 3, color: "--explorer", sq: "🟦" },
+  { key: "pioneer", name: "Pioneer", min: 1, color: "--pioneer", sq: "🟪" },
+  { key: "legend", name: "Legend", min: 0, color: "--legend", sq: "🟨" }
+];
+const tierOf = pct => TIERS.find(t => pct >= t.min);
+const tierByKey = k => TIERS.find(t => t.key === k);
+const pointsOf = pct => Math.round(100 * (1 - Math.sqrt(pct / 100)));
+const RANKS = [[450, "Legendary Navigator"], [380, "Seasoned Explorer"], [300, "Frequent Flyer"], [200, "Weekend Traveler"], [100, "Day Tripper"], [0, "Stuck at Customs"]];
+
+function norm(s) {
+  return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase()
+    .replace(/[^a-z0-9 ]/g, " ").replace(/^the /, "").replace(/\bsaint\b/g, "saint").replace(/\s+/g, " ").trim();
+}
+const LOOKUP = {};
+COUNTRIES.forEach(c => { LOOKUP[norm(c)] = c; });
+Object.entries(ALIASES).forEach(([k, v]) => { LOOKUP[norm(k)] = v; });
+
+function shuffleIds(seedStr) {
+  let h = 2166136261;
+  for (const ch of seedStr) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); }
+  const rand = () => { h ^= h << 13; h ^= h >>> 17; h ^= h << 5; return ((h >>> 0) % 100000) / 100000; };
+  const idx = QUESTIONS.map((_, i) => i);
+  for (let i = idx.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [idx[i], idx[j]] = [idx[j], idx[i]]; }
+  return idx;
+}
+const dayNumOf = d => Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000);
+// Daily trips walk a shuffled deck, so nothing repeats within a cycle.
+// Each day gets 2 or 3 border questions and the rest from other categories.
+function cycleSchedule(cycle) {
+  const deck = shuffleIds("stamped-cycle-" + cycle);
+  const b = deck.filter(i => QUESTIONS[i].cat === "borders"), o = deck.filter(i => QUESTIONS[i].cat !== "borders");
+  const days = [];
+  for (let d = 0; ; d++) {
+    const nb = d % 2 ? 2 : 3, no = 5 - nb;
+    if (b.length < nb || o.length < no) break;
+    const day = [...b.splice(0, nb), ...o.splice(0, no)];
+    const order = shuffleIds("stamped-day-" + cycle + "-" + d).filter(i => i < 5);
+    days.push(order.map(i => day[i]));
+  }
+  return days;
+}
+const CYCLE_LEN = cycleSchedule(0).length;
+function dailyIds(d) {
+  const n = dayNumOf(d);
+  return cycleSchedule(Math.floor(n / CYCLE_LEN))[n % CYCLE_LEN];
+}
+
+const today = new Date();
+const dayKey = today.toISOString ? `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}` : "";
+const LAUNCH = dayNumOf(new Date(2026, 9, 14));
+const tripNo = Math.max(1, dayNumOf(today) - LAUNCH + 1);
+const store = {
+  get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+};
+
+const page = document.getElementById("page");
+let game;
+
+function loadStats() { return store.get("stamped-stats") || { streak: 0, best: 0, lastDay: null, played: 0 }; }
+function showStats() {
+  const s = loadStats();
+  const alive = s.lastDay === dayNumOf(today) || s.lastDay === dayNumOf(today) - 1;
+  document.getElementById("streak").textContent = alive ? s.streak : 0;
+  document.getElementById("best").textContent = s.best;
+}
+function recordDaily(total) {
+  const s = loadStats(), n = dayNumOf(today);
+  if (s.lastDay === n) return;
+  s.streak = s.lastDay === n - 1 ? s.streak + 1 : 1;
+  s.lastDay = n; s.played += 1; s.best = Math.max(s.best, total);
+  store.set("stamped-stats", s); showStats();
+}
+
+function newGame(mode) {
+  let ids;
+  if (mode === "daily") ids = dailyIds(today);
+  else { const skip = new Set(dailyIds(today)); ids = shuffleIds("layover-" + Math.random()).filter(i => !skip.has(i)).slice(0, 5); }
+  game = { mode, ids, round: 0, results: [] };
+  if (mode === "daily") {
+    const saved = store.get("stamped-daily-" + dayKey);
+    if (saved && saved.results) { game.results = saved.results; game.round = saved.results.length; }
+  }
+  render();
+}
+function save() { if (game.mode === "daily") store.set("stamped-daily-" + dayKey, { results: game.results }); }
+
+function headHTML() {
+  return `<div class="page-head">
+      <span>${game.mode === "daily" ? `Trip <b>No. ${String(tripNo).padStart(4, "0")}</b>` : "<b>Layover</b> round"} · ${today.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}</span>
+      <span class="tabs">
+        <button class="tabbtn" type="button" data-mode="daily" aria-pressed="${game.mode === "daily"}">Daily trip</button>
+        <button class="tabbtn" type="button" data-mode="practice" aria-pressed="${game.mode === "practice"}">Layover</button>
+      </span>
+    </div>`;
+}
+function slotsHTML() {
+  let h = `<div class="slots">`;
+  for (let i = 0; i < 5; i++) {
+    const r = game.results[i];
+    if (r) {
+      const t = r.tier ? tierByKey(r.tier) : null;
+      const c = t ? `var(${t.color})` : "var(--denied)";
+      h += `<div class="slot done" style="color:${c};border-color:${c}">${t ? t.name : "Denied"}<b>+${r.points}</b></div>`;
+    } else h += `<div class="slot${i === game.round ? " now" : ""}">${String(i + 1).padStart(2, "0")}</div>`;
+  }
+  return h + `</div>`;
+}
+function wireTabs() {
+  page.querySelectorAll(".tabbtn").forEach(b => b.addEventListener("click", () => { if (b.dataset.mode !== game.mode) newGame(b.dataset.mode); }));
+}
+
+function render() {
+  if (game.round >= 5) return renderEnd();
+  const Q = QUESTIONS[game.ids[game.round]];
+  page.innerHTML = `${headHTML()}${slotsHTML()}
+    <p class="eyebrow">Destination ${game.round + 1} of 5</p>
+    <h2 class="question">${Q.q}</h2>
+    <p class="hint">${Q.answers.length} countries get you through. Pick the one nobody else will.</p>
+    <form id="f" autocomplete="off">
+      <div class="field">
+        <label for="guess">Declare your country</label>
+        <input type="text" id="guess" list="countries" placeholder="e.g. Liechtenstein">
+      </div>
+      <button class="btn" type="submit">STAMP IT</button>
+    </form>
+    <div class="msg" id="msg" role="status"></div>`;
+  wireTabs();
+  const input = document.getElementById("guess");
+  input.focus({ preventScroll: true });
+  document.getElementById("f").addEventListener("submit", e => {
+    e.preventDefault();
+    const raw = input.value.trim();
+    if (!raw) return;
+    const country = LOOKUP[norm(raw)];
+    if (!country) { document.getElementById("msg").textContent = `Customs doesn't recognize "${raw}". Check the spelling and try again.`; return; }
+    const hit = Q.answers.find(a => a.name === country);
+    const r = hit
+      ? { q: Q.q, answer: country, pct: hit.pct, points: pointsOf(hit.pct), tier: tierOf(hit.pct).key }
+      : { q: Q.q, answer: country, pct: 0, points: 0, tier: null };
+    game.results.push(r);
+    save();
+    renderReveal(Q, r);
+  });
+}
+
+function stampHTML(r, slam) {
+  const t = r.tier ? tierByKey(r.tier) : null;
+  const cls = t ? "t-" + t.key : "t-denied";
+  const c = t ? `var(${t.color})` : "var(--denied)";
+  const when = today.toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "2-digit" }).toUpperCase();
+  return `<div class="stamp ${cls}${slam ? " slam" : ""}" style="--c:${c}">
+      <div class="tier">${t ? t.name.toUpperCase() : "ENTRY DENIED"}</div>
+      <div class="country">${r.answer}</div>
+      <div class="line">${t ? (r.pct < 1 ? r.pct.toFixed(1) : Math.round(r.pct)) + "% · " : ""}${when}</div>
+      <div class="pts">+${r.points}</div>
+    </div>`;
+}
+
+function ledgerHTML(Q, mine) {
+  const max = Q.answers[0].pct;
+  return Q.answers.map(a => {
+    const t = tierOf(a.pct);
+    return `<div class="row${a.name === mine ? " mine" : ""}">
+      <span class="nm">${a.name === mine ? "▶ " : ""}${a.name}</span>
+      <span class="bar"><i style="width:${Math.max(2, (a.pct / max) * 100)}%;background:var(${t.color})"></i></span>
+      <span class="pc">${a.pct < 1 ? a.pct.toFixed(1) : Math.round(a.pct)}%</span>
+    </div>`;
+  }).join("");
+}
+
+function renderReveal(Q, r) {
+  const last = game.results.length >= 5;
+  page.innerHTML = `${headHTML()}${slotsHTML()}
+    <p class="eyebrow">Destination ${game.results.length} of 5 · ${Q.q}</p>
+    <div class="stamp-zone">${stampHTML(r, true)}</div>
+    ${r.tier ? "" : `<p class="hint">${r.answer} doesn't get you through this one.</p>`}
+    <div class="ledger-title"><h3>CUSTOMS LEDGER</h3><span>${Q.answers.length} valid entries</span></div>
+    <div class="ledger">${ledgerHTML(Q, r.answer)}</div>
+    <div class="legend">${TIERS.map(t => `<span><i style="background:var(${t.color})"></i>${t.name}</span>`).join("")}</div>
+    <div class="actions"><button class="btn alt" id="next" type="button">${last ? "SEE PASSPORT" : "NEXT DESTINATION"}</button></div>`;
+  wireTabs();
+  const next = document.getElementById("next");
+  next.focus({ preventScroll: true });
+  next.addEventListener("click", () => { game.round = game.results.length; render(); });
+}
+
+function mrzLine(total) {
+  const pad = (s, n) => (s + "<".repeat(n)).slice(0, n);
+  const l1 = pad(`P<STP${game.mode === "daily" ? "DAILY" : "LAYOVER"}<<TRIP<${String(tripNo).padStart(4, "0")}`, 44);
+  const codes = game.results.map(r => (r.tier ? tierByKey(r.tier).name.slice(0, 3).toUpperCase() : "DNY")).join("");
+  const l2 = pad(`${String(total).padStart(3, "0")}<${codes}<${dayKey.replace(/-/g, "")}`, 44);
+  return l1 + "\n" + l2;
+}
+
+function renderEnd() {
+  const total = game.results.reduce((t, r) => t + r.points, 0);
+  if (game.mode === "daily") recordDaily(total);
+  const rank = RANKS.find(([min]) => total >= min)[1];
+  const squares = game.results.map(r => (r.tier ? tierByKey(r.tier).sq : "🟥")).join("");
+  const shareText = `STAMPED ${game.mode === "daily" ? "Trip #" + tripNo : "Layover"}\n${squares} ${total}/500\n${rank}`;
+  page.innerHTML = `${headHTML()}
+    <p class="eyebrow" style="margin-top:16px">${game.mode === "daily" ? "Trip complete" : "Layover complete"}</p>
+    <div class="total"><b>${total}</b><span>/ 500 points</span></div>
+    <p class="rank">${rank}</p>
+    <div class="spread">${game.results.map(r => `<div style="display:grid;place-items:center">${stampHTML(r, false)}</div>`).join("")}</div>
+    <div class="ledger">${game.results.map(r => `<div class="row"><span class="nm">${r.answer}</span><span class="nm" style="color:var(--muted)">${r.q}</span><span class="pc">+${r.points}</span></div>`).join("")}</div>
+    <div class="mrz" aria-label="Passport code">${mrzLine(total)}</div>
+    <div class="share" id="share">${shareText}</div>
+    <div class="actions">
+      <button class="btn" id="copy" type="button">COPY RESULT</button>
+      <button class="btn ghost" id="layover" type="button">PLAY A LAYOVER</button>
+    </div>`;
+  wireTabs();
+  document.getElementById("copy").addEventListener("click", e => {
+    const btn = e.currentTarget;
+    const fallback = () => {
+      const sel = window.getSelection(), range = document.createRange();
+      range.selectNodeContents(document.getElementById("share")); sel.removeAllRanges(); sel.addRange(range);
+      btn.textContent = "SELECTED · CTRL+C";
+    };
+    try { navigator.clipboard.writeText(shareText).then(() => { btn.textContent = "COPIED"; }, fallback); } catch { fallback(); }
+  });
+  document.getElementById("layover").addEventListener("click", () => newGame("practice"));
+}
+
+document.getElementById("countries").innerHTML = COUNTRIES.map(c => `<option value="${c}"></option>`).join("");
+showStats();
+newGame("daily");
+</script>
+
+</body></html>
